@@ -45,7 +45,7 @@
                             </li>
 
                             <li class="">
-                                <a href="#" class="waves-effect">
+                                <a href="/tracks" class="waves-effect">
                                     <i class="ti-pin-alt"></i> <span> Track </span>
                                 </a>
                             </li>

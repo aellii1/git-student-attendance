@@ -19,8 +19,7 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
     Route::resource('/employees', '\App\Http\Controllers\EmployeeController');
 
     // track route
-    Route::resource('/tracks', '\App\Http\Controllers\TrackController');
-    Route::resource('/tracks', '\App\Http\Controllers\TrackController');
+    Route::get('/tracks', '\App\Http\Controllers\TrackController@index')->name('tracks');
 
     // attendance route
     Route::get('/attendance', '\App\Http\Controllers\AttendanceController@index')->name('attendance');
