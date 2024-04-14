@@ -8,6 +8,12 @@ use App\Traits\Uuids;
 class Role extends Model
 {
     use Uuids;
+
+    protected $fillable = [
+        'slug', 
+        'name', 
+        'permissions'
+    ];
     
     public function users()
     {
