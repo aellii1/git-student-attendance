@@ -24,6 +24,12 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
     Route::put('/tracks/{id}', '\App\Http\Controllers\TrackController@update')->name('tracks.update');
     Route::delete('/tracks/{id}', '\App\Http\Controllers\TrackController@destroy')->name('tracks.destroy');
 
+    // section route
+    Route::get('/sections', 'App\Http\Controllers\SectionController@index')->name('sections');
+    Route::post('/sections', 'App\Http\Controllers\SectionController@store')->name('sections.store');
+    Route::put('/sections/{id}', 'App\Http\Controllers\SectionController@update')->name('sections.update');
+    Route::delete('/sections/{id}', 'App\Http\Controllers\SectionController@destroy')->name('sections.destroy');
+
     // attendance route
     Route::get('/attendance', '\App\Http\Controllers\AttendanceController@index')->name('attendance');
     Route::get('/latetime', '\App\Http\Controllers\AttendanceController@indexLatetime')->name('indexLatetime');

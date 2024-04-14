@@ -27,11 +27,11 @@
                                 </a>
                             </li> -->
                             
-                            <li class="">
+                            <!-- <li class="">
                                 <a href="#" class="waves-effect {{ request()->is("check") || request()->is("check/*") ? "mm active" : "" }}">
                                     <i class="dripicons-to-do"></i> <span> Attendance Sheet </span>
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="">
                                 <a href="#" class="waves-effect {{ request()->is("sheet-report") || request()->is("sheet-report/*") ? "mm active" : "" }}">
                                     <i class="dripicons-to-do"></i> <span> Sheet Report </span>
@@ -51,7 +51,7 @@
                             </li>
 
                             <li class="">
-                                <a href="#" class="waves-effect">
+                                <a href="/sections" class="waves-effect">
                                     <i class="ti-stamp"></i> <span> Section </span>
                                 </a>
                             </li>
