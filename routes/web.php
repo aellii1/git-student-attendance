@@ -20,6 +20,9 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
 
     // track route
     Route::get('/tracks', '\App\Http\Controllers\TrackController@index')->name('tracks');
+    Route::post('/tracks', '\App\Http\Controllers\TrackController@store')->name('tracks.store');
+    Route::put('/tracks/{id}', '\App\Http\Controllers\TrackController@update')->name('tracks.update');
+    Route::delete('/tracks/{id}', '\App\Http\Controllers\TrackController@destroy')->name('tracks.destroy');
 
     // attendance route
     Route::get('/attendance', '\App\Http\Controllers\AttendanceController@index')->name('attendance');
