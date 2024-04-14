@@ -53,6 +53,7 @@ return array(
     'App\\Models\\Overtime' => $baseDir . '/app/Models/Overtime.php',
     'App\\Models\\Role' => $baseDir . '/app/Models/Role.php',
     'App\\Models\\Schedule' => $baseDir . '/app/Models/Schedule.php',
+    'App\\Models\\Track' => $baseDir . '/app/Models/Track.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

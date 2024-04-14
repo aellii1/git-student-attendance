@@ -13,18 +13,28 @@ Route::get('attended-before/{user_id}', '\App\Http\Controllers\AttendanceControl
 Auth::routes(['register' => true, 'reset' => false]);
 
 Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function () {
+
+    // employee route
     Route::resource('/employees', '\App\Http\Controllers\EmployeeController');
     Route::resource('/employees', '\App\Http\Controllers\EmployeeController');
+
+    // track route
+    Route::resource('/tracks', '\App\Http\Controllers\TrackController');
+    Route::resource('/tracks', '\App\Http\Controllers\TrackController');
+
+    // attendance route
     Route::get('/attendance', '\App\Http\Controllers\AttendanceController@index')->name('attendance');
-  
     Route::get('/latetime', '\App\Http\Controllers\AttendanceController@indexLatetime')->name('indexLatetime');
     Route::get('/leave', '\App\Http\Controllers\LeaveController@index')->name('leave');
     Route::get('/overtime', '\App\Http\Controllers\LeaveController@indexOvertime')->name('indexOvertime');
 
+    // admin route
     Route::get('/admin', '\App\Http\Controllers\AdminController@index')->name('admin');
 
+    // schedule route
     Route::resource('/schedule', '\App\Http\Controllers\ScheduleController');
 
+    // check route
     Route::get('/check', '\App\Http\Controllers\CheckController@index')->name('check');
     Route::get('/sheet-report', '\App\Http\Controllers\CheckController@sheetReport')->name('sheet-report');
     Route::post('check-store','\App\Http\Controllers\CheckController@CheckStore')->name('check_store');

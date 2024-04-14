@@ -4,10 +4,11 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Traits\Uuids;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, Uuids;
 
 
     public function getRouteKeyName()

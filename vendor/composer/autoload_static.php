@@ -584,6 +584,7 @@ class ComposerStaticInitc09dc24b3d08bdc970c9084f884de045
         'App\\Models\\Overtime' => __DIR__ . '/../..' . '/app/Models/Overtime.php',
         'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\Schedule' => __DIR__ . '/../..' . '/app/Models/Schedule.php',
+        'App\\Models\\Track' => __DIR__ . '/../..' . '/app/Models/Track.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
