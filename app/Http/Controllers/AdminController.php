@@ -33,4 +33,12 @@ class AdminController extends Controller
         return view('admin.index')->with(['data' => $data]);
     }
 
+    public function showDashboard()
+    {
+        $user = auth()->user(); 
+        return view('admin.index', [
+            'user' => $user
+        ]);
+    }
+
 }

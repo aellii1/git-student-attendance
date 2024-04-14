@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
 
     // admin route
     Route::get('/admin', '\App\Http\Controllers\AdminController@index')->name('admin');
+    Route::get('/admin', '\App\Http\Controllers\AdminController@showDashboard')->name('admin');
 
     // schedule route
     Route::resource('/schedule', '\App\Http\Controllers\ScheduleController');
