@@ -16,8 +16,19 @@ class StudentController extends Controller
     public function index() {
 
         $user = auth()->user();
-        
+
         $students = Student::all();
+        $students = Student::leftJoin('tracks', 'students.track', '=', 'tracks.id')
+                            ->leftJoin('sections', 'students.section', '=', 'sections.id')
+                            ->leftJoin('grade_levels as grLevel', 'students.gr_lvl', '=', 'grLevel.id')
+                            ->select('students.*',
+                            'tracks.track as std_track',
+                            'tracks.strand as std_strand',
+                            'sections.section as std_section',
+                            'grLevel.grade as std_grade'
+                            )
+                            ->get();
+        
         $tracks = Track::all();
         $sections = Section::all(); 
         $gr_levels = GradeLevel::all();

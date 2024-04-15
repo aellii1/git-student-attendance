@@ -65,6 +65,18 @@
                                                                 {{ ucfirst(strtolower($student->name)) }}
                                                             </td>
                                                             <td>
+                                                                {{ $student->lrn_no}}
+                                                            </td>
+                                                            <td>    
+                                                                {{ strtoupper($student->std_track) }} | {{ strtoupper($student->std_strand) }}
+                                                            </td>
+                                                            <td>    
+                                                                {{ strtoupper($student->std_section) }}
+                                                            </td>
+                                                            <td>    
+                                                                {{ strtoupper($student->std_grade) }}
+                                                            </td>
+                                                            <td>
                                                                 <a href="#edit{{$student->id}}" data-toggle="modal" class="btn btn-success btn-sm edit btn-flat"><i class='fa fa-edit'></i></a>
                                                                 <a href="#delete{{$student->id}}" data-toggle="modal" class="btn btn-danger btn-sm delete btn-flat"><i class='fa fa-trash'></i></a>
                                                             </td>
