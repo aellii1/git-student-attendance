@@ -62,7 +62,7 @@
                                                                 12315
                                                             </td>
                                                             <td>
-                                                                {{ ucfirst(strtolower($student->name)) }}
+                                                                {{ strtoupper($student->name) }}
                                                             </td>
                                                             <td>
                                                                 {{ $student->lrn_no}}
