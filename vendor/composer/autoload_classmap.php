@@ -177,7 +177,7 @@ return array(
     'CreateSchedulesTable' => $baseDir . '/database/migrations/2019_12_03_044741_create_schedules_table.php',
     'CreateSectionsTable' => $baseDir . '/database/migrations/2024_04_14_135120_create_sections_table.php',
     'CreateStudentIDSTable' => $baseDir . '/database/migrations/2024_04_14_144740_create_student_i_d_s_table.php',
-    'CreateStudentsTable' => $baseDir . '/database/migrations/2024_04_15_150000_create_students_table.php',
+    'CreateStudentsTable' => $baseDir . '/database/migrations/2024_04_15_154045_create_students_table.php',
     'CreateTracksTable' => $baseDir . '/database/migrations/2024_04_14_101802_create_tracks_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'Cron\\AbstractField' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',

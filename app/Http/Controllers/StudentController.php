@@ -38,9 +38,10 @@ class StudentController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
+            'lrn_no' => 'required|string|max:11', 
             'gender' => 'required|string',
             'birthdate' => 'required|date',
-            'ctn_no' => 'required|string|max:255',
+            'ctn_no' => 'required|string|max:11', 
             'email' => 'required|email|unique:students,email',
             'section' => 'required|string|max:255',
             'track' => 'required|string|max:255',

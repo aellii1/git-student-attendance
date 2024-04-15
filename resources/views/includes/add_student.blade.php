@@ -22,6 +22,10 @@
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name | e.g. John Doe" autofocus required />
                         </div>
                         <div class="form-group">
+                            <label for="lrn_no">LRN No.</label>
+                            <input type="number" class="form-control" id="lrn_no" name="lrn_no" placeholder="Enter LRN No." autofocus required />
+                        </div>
+                        <div class="form-group">
                             <label for="gender">Gender</label>
                             <select class="form-control" name="gender" id="gender">
                                 <option value="">-- Select Gender --</option>
@@ -36,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label for="ctn_no">Contact No.</label>
-                            <input type="number" class="form-control" id="ctn_no" name="ctn_no" maxlength="11" placeholder="Enter Contact No" autofocus required />
+                            <input type="number" class="form-control" id="ctn_no" name="ctn_no" maxlength="11" placeholder="Enter Contact No." autofocus required />
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>

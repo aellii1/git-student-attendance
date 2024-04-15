@@ -16,10 +16,11 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id');
+            $table->string('lrn_no');
             $table->string('name');
             $table->uuid('gender');
             $table->string('birthdate');
-            $table->integer('ctn_no');
+            $table->string('ctn_no');
             $table->string('email');
             $table->uuid('section');
             $table->uuid('track');

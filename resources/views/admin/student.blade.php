@@ -59,7 +59,10 @@
 
                                                         <tr>
                                                             <td>
-                                                                {{ strtoupper($student->student) }}
+                                                                12315
+                                                            </td>
+                                                            <td>
+                                                                {{ ucfirst(strtolower($student->name)) }}
                                                             </td>
                                                             <td>
                                                                 <a href="#edit{{$student->id}}" data-toggle="modal" class="btn btn-success btn-sm edit btn-flat"><i class='fa fa-edit'></i></a>
@@ -77,9 +80,6 @@
                         </div> <!-- end row -->    
                                     
 
-@foreach($students as $student)
-@include('includes.edit_delete_student')
-@endforeach
 
                         
 @include('includes.add_student')
