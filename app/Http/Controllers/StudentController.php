@@ -80,17 +80,56 @@ class StudentController extends Controller
     
         if ($latestStudentID) {
             $parts = explode('-', $latestStudentID->student_no);
-            $number = $parts[0] + 1;
-            $year = $parts[1];
+            $number = isset($parts[0]) ? $parts[0] + 1 : 1;
+            $year = isset($parts[1]) ? $parts[1] : date('Y');
     
             $newStudentID = str_pad($number, 4, '0', STR_PAD_LEFT) . $year;
-            
+    
             return $newStudentID;
         } else {
             return '000124'; 
         }
+    }
+
+    public function update(Request $request, $id) {
+        try {
+
+            $student = Student::findOrFail($id);
+            
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'gender' => 'required|string',
+                'birthdate' => 'required|date',
+                'ctn_no' => 'required|string|max:255',
+                'email' => 'required|email|unique:students,email,' . $student->id,
+                'section' => 'required|string|max:255',
+                'track' => 'required|string|max:255',
+                'gr_lvl' => 'required|string|max:255',
+            ]);
     
-        return $newStudentID;
+            $student->update($validatedData);
+    
+            return redirect()->back()->with('success', 'Student updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to update student: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            // Find the student by ID
+            $student = Student::findOrFail($id);
+
+            // Delete the student
+            $student->delete();
+
+            // Optionally, you can return a success message
+            return redirect()->back()->with('success', 'Student deleted successfully');
+        } catch (\Exception $e) {
+            // If an error occurs, return an error message
+            return redirect()->back()->with('error', 'Failed to delete student: ' . $e->getMessage());
+        }
     }
 
 }

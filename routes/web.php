@@ -33,6 +33,8 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
     // student route 
     Route::get('/students', 'App\Http\Controllers\StudentController@index')->name('students');
     Route::post('/students', 'App\Http\Controllers\StudentController@store')->name('students.store');
+    Route::put('/students/{id}', 'App\Http\Controllers\StudentController@update')->name('students.update');
+    Route::delete('/students/{id}', 'App\Http\Controllers\StudentController@destroy')->name('students.destroy');
 
 
     // attendance route

@@ -91,8 +91,9 @@
                             </div> <!-- end col -->
                         </div> <!-- end row -->    
                                     
-
-
+@foreach($students as $student)
+@include('includes.edit_delete_student')
+@endforeach
                         
 @include('includes.add_student')
 
