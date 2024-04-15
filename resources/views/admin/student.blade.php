@@ -59,7 +59,7 @@
 
                                                         <tr>
                                                             <td>
-                                                                12315
+                                                                {{ $student->std_no }}
                                                             </td>
                                                             <td>
                                                                 {{ strtoupper($student->name) }}

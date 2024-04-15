@@ -21,11 +21,13 @@ class StudentController extends Controller
         $students = Student::leftJoin('tracks', 'students.track', '=', 'tracks.id')
                             ->leftJoin('sections', 'students.section', '=', 'sections.id')
                             ->leftJoin('grade_levels as grLevel', 'students.gr_lvl', '=', 'grLevel.id')
+                            ->leftJoin('student_i_d_s as studentNo', 'students.user_id', '=', 'studentNo.std_id')
                             ->select('students.*',
                             'tracks.track as std_track',
                             'tracks.strand as std_strand',
                             'sections.section as std_section',
-                            'grLevel.grade as std_grade'
+                            'grLevel.grade as std_grade',
+                            'studentNo.student_no as std_no'
                             )
                             ->get();
         
@@ -61,9 +63,34 @@ class StudentController extends Controller
 
         $validatedData['user_id'] = Str::uuid();
 
+        $studentNo = $this->generateStudentNo();
+
         $student = Student::create($validatedData);
 
+        StudentID::create([
+            'student_no' => $studentNo,
+            'std_id' => $student->user_id,
+        ]);
+
         return redirect()->back()->with('success', 'Student created successfully');
+    }
+
+    private function generateStudentNo() {
+        $latestStudentID = StudentID::latest('student_no')->first();
+    
+        if ($latestStudentID) {
+            $parts = explode('-', $latestStudentID->student_no);
+            $number = $parts[0] + 1;
+            $year = $parts[1];
+    
+            $newStudentID = str_pad($number, 4, '0', STR_PAD_LEFT) . $year;
+            
+            return $newStudentID;
+        } else {
+            return '000124'; 
+        }
+    
+        return $newStudentID;
     }
 
 }
