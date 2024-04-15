@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\Student;
 use App\Models\StudentID;
 use App\Models\Track;
@@ -33,24 +34,24 @@ class StudentController extends Controller
         
     }
 
-    public function store(Request $request) {
-
+    public function store(Request $request)
+    {
         $validatedData = $request->validate([
-            'user_id' => 'required|string',
             'name' => 'required|string|max:255',
-            'gender' => 'required|in:Male,Female,Others',
+            'gender' => 'required|string',
             'birthdate' => 'required|date',
-            'ctn_no' => 'required|integer',
+            'ctn_no' => 'required|string|max:255',
             'email' => 'required|email|unique:students,email',
             'section' => 'required|string|max:255',
             'track' => 'required|string|max:255',
             'gr_lvl' => 'required|string|max:255',
         ]);
-    
-        $newRecord = Student::create($validatedData);
 
-        dd($validatedData);
-    
-        return redirect()->back()->with('success', 'Record created successfully');
+        $validatedData['user_id'] = Str::uuid();
+
+        $student = Student::create($validatedData);
+
+        return redirect()->back()->with('success', 'Student created successfully');
     }
+
 }
