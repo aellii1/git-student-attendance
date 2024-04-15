@@ -51,10 +51,10 @@ class StudentController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'lrn_no' => 'required|string|max:11', 
+            'lrn_no' => 'required|string|max:15', 
             'gender' => 'required|string',
             'birthdate' => 'required|date',
-            'ctn_no' => 'required|string|max:11', 
+            'ctn_no' => 'required|string|max:15', 
             'email' => 'required|email|unique:students,email',
             'section' => 'required|string|max:255',
             'track' => 'required|string|max:255',
@@ -79,38 +79,47 @@ class StudentController extends Controller
         $latestStudentID = StudentID::latest('student_no')->first();
     
         if ($latestStudentID) {
-            $parts = explode('-', $latestStudentID->student_no);
-            $number = isset($parts[0]) ? $parts[0] + 1 : 1;
-            $year = isset($parts[1]) ? $parts[1] : date('Y');
-    
-            $newStudentID = str_pad($number, 4, '0', STR_PAD_LEFT) . $year;
-    
-            return $newStudentID;
+            $numberPart = (int) substr($latestStudentID->student_no, 0, 4);
+            
+            $numberPart++;
+            
+            $yearPart = substr($latestStudentID->student_no, 4, 2);
         } else {
-            return '000124'; 
+            $numberPart = 1;
+            
+            $yearPart = date('y');
         }
+    
+        $newStudentID = str_pad($numberPart, 4, '0', STR_PAD_LEFT) . $yearPart;
+    
+        return $newStudentID;
     }
 
     public function update(Request $request, $id) {
         try {
-
+            // Find the student by ID
             $student = Student::findOrFail($id);
             
+            // Validate the incoming request data
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
+                'lrn_no' => 'required|string|max:15',
                 'gender' => 'required|string',
                 'birthdate' => 'required|date',
-                'ctn_no' => 'required|string|max:255',
+                'ctn_no' => 'required|string|max:15',
                 'email' => 'required|email|unique:students,email,' . $student->id,
                 'section' => 'required|string|max:255',
                 'track' => 'required|string|max:255',
                 'gr_lvl' => 'required|string|max:255',
             ]);
     
+            // Update the student record with the validated data
             $student->update($validatedData);
-    
+
+            // Redirect back with success message
             return redirect()->back()->with('success', 'Student updated successfully');
         } catch (\Exception $e) {
+            // Redirect back with error message if update fails
             return redirect()->back()->with('error', 'Failed to update student: ' . $e->getMessage());
         }
     }
