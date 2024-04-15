@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title"><b>Edit Employee Details</b></h5>
+            <h5 class="modal-title"><b>Edit Track Details</b></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
 
@@ -42,7 +42,7 @@
         <div class="modal-content">
             <div class="modal-header " style="align-items: center">
                
-              <h4 class="modal-title "><span class="track_id">Delete Employee</span></h4>
+              <h4 class="modal-title "><span class="track_id">Delete Track</span></h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
