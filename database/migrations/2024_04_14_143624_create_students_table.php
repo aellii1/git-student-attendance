@@ -17,7 +17,7 @@ class CreateStudentsTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->string('name');
-            $table->enum('gender', ['Male', 'Female', 'Others']);
+            $table->uuid('gender');
             $table->string('birthdate');
             $table->integer('ctn_no');
             $table->string('email');

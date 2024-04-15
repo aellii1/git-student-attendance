@@ -30,6 +30,11 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
     Route::put('/sections/{id}', 'App\Http\Controllers\SectionController@update')->name('sections.update');
     Route::delete('/sections/{id}', 'App\Http\Controllers\SectionController@destroy')->name('sections.destroy');
 
+    // student route 
+    Route::get('/students', 'App\Http\Controllers\StudentController@index')->name('students');
+    Route::post('/students', 'App\Http\Controllers\StudentController@store')->name('students.store');
+
+
     // attendance route
     Route::get('/attendance', '\App\Http\Controllers\AttendanceController@index')->name('attendance');
     Route::get('/latetime', '\App\Http\Controllers\AttendanceController@indexLatetime')->name('indexLatetime');
