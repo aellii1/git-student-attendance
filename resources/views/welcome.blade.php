@@ -37,10 +37,14 @@
                         <div class="row">
                             <img src="{{ asset('assets/images/profile.png') }}" class="border border-secondary" width="80%" alt="std_profile">
                             <div class="col-md-12 offset-md-1 pl-2 pt-2">
-                                <input type="number" class="rounded-pill border border-secondary" style="text-align: center; outline: none;" placeholder="Input Your ID No" required />
-                                <div class="submit-btn px-5 mx-1 pt-1">
-                                    <button type="submit" class="btn-sm btn-success rounded-pill">Time In</button>
-                                </div>
+                                <form action="{{ route('student.detail.store') }}" method="POST">
+                                    <input type="number" name="student_id" class="rounded-pill border border-secondary" style="text-align: center; outline: none;" placeholder="Input Your ID No" required />
+                                        <div class="submit-btn px-5 mx-1 pt-1">
+                                            @csrf
+
+                                            <button type="submit" class="btn-sm btn-success rounded-pill">Submit</button>
+                                        </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -70,6 +74,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($students as $student)
+                                    @include('student-detail')
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -78,7 +85,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- clock script -->
     <script>

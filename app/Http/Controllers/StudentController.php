@@ -10,6 +10,7 @@ use App\Models\Track;
 use App\Models\Section;
 use App\Models\GradeLevel;
 use App\Models\Gender;
+use App\Models\studentAttendance;
 
 class StudentController extends Controller
 {
@@ -97,10 +98,8 @@ class StudentController extends Controller
 
     public function update(Request $request, $id) {
         try {
-            // Find the student by ID
             $student = Student::findOrFail($id);
             
-            // Validate the incoming request data
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'lrn_no' => 'required|string|max:15',
@@ -113,13 +112,10 @@ class StudentController extends Controller
                 'gr_lvl' => 'required|string|max:255',
             ]);
     
-            // Update the student record with the validated data
             $student->update($validatedData);
 
-            // Redirect back with success message
             return redirect()->back()->with('success', 'Student updated successfully');
         } catch (\Exception $e) {
-            // Redirect back with error message if update fails
             return redirect()->back()->with('error', 'Failed to update student: ' . $e->getMessage());
         }
     }
@@ -127,17 +123,85 @@ class StudentController extends Controller
     public function destroy($id)
     {
         try {
-            // Find the student by ID
             $student = Student::findOrFail($id);
 
-            // Delete the student
             $student->delete();
 
-            // Optionally, you can return a success message
             return redirect()->back()->with('success', 'Student deleted successfully');
         } catch (\Exception $e) {
-            // If an error occurs, return an error message
             return redirect()->back()->with('error', 'Failed to delete student: ' . $e->getMessage());
+        }
+    }
+
+    public function studentDetail() {
+
+        $students = Student::all();
+        $students = Student::leftJoin('tracks', 'students.track', '=', 'tracks.id')
+                            ->leftJoin('sections', 'students.section', '=', 'sections.id')
+                            ->leftJoin('grade_levels as grLevel', 'students.gr_lvl', '=', 'grLevel.id')
+                            ->leftJoin('student_i_d_s as studentNo', 'students.user_id', '=', 'studentNo.std_id')
+                            ->select('students.*',
+                            'tracks.track as std_track',
+                            'tracks.strand as std_strand',
+                            'sections.section as std_section',
+                            'grLevel.grade as std_grade',
+                            'studentNo.student_no as std_no'
+                            )
+                            ->get();
+        
+        $tracks = Track::all();
+        $sections = Section::all(); 
+        $gr_levels = GradeLevel::all();
+        $genders = Gender::all();
+
+        return view('welcome', [
+            'students' => $students,
+            'tracks' => $tracks,
+            'sections' => $sections,
+            'gr_levels' => $gr_levels,
+            'genders' => $genders
+        ]);
+        
+    }
+
+    public function studentDetailStore(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'student_id' => 'required|matches_student_id',
+        ]);
+
+        // Retrieve the student record based on the provided student ID
+        $studentID = $validatedData['student_id'];
+        $student = StudentID::where('student_no', $studentID)->first();
+        
+        // Check if a student with the provided ID exists
+        if ($student) {
+            // Add the authenticated user's ID to the validated data
+            $validatedData['user_id'] = $student->std_id;
+            
+            // If time_in is not provided, set it to the current timestamp
+            if (!isset($validatedData['time_in'])) {
+                $validatedData['time_in'] = now();
+            }            
+
+            // Find the attendance record based on student_id
+            $attendance = studentAttendance::where('id')->first();
+
+            // Check if the attendance record exists
+            if ($attendance) {
+                // Update the time_out for the existing attendance record only if time_in is set
+                if (isset($validatedData['time_in'])) {
+                    $attendance->update(['time_out' => now()]);
+                }
+            } else {
+                // Create a new attendance record if it doesn't exist
+                studentAttendance::create($validatedData);
+            }
+
+            return redirect()->back()->with('success', 'Attendance recorded successfully');
+        } else {
+            return redirect()->back()->with('error', 'Student with ID ' . $studentID . ' not found.');
         }
     }
 
