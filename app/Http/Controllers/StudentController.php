@@ -134,34 +134,30 @@ class StudentController extends Controller
     }
 
     public function studentDetail() {
-
-        $students = Student::all();
-        $students = Student::leftJoin('tracks', 'students.track', '=', 'tracks.id')
-                            ->leftJoin('sections', 'students.section', '=', 'sections.id')
-                            ->leftJoin('grade_levels as grLevel', 'students.gr_lvl', '=', 'grLevel.id')
-                            ->leftJoin('student_i_d_s as studentNo', 'students.user_id', '=', 'studentNo.std_id')
-                            ->select('students.*',
-                            'tracks.track as std_track',
-                            'tracks.strand as std_strand',
-                            'sections.section as std_section',
-                            'grLevel.grade as std_grade',
-                            'studentNo.student_no as std_no'
-                            )
-                            ->get();
+        
+        $studentAttendances = studentAttendance::orderBy('created_at', 'asc')->paginate(5);
+        $studentAttendances = studentAttendance::leftJoin('students', 'student_attendances.user_id', '=', 'students.user_id')
+                                    ->leftJoin('student_i_d_s as stdIDS', 'students.user_id', '=', 'stdIDS.std_id')
+                                    ->select(
+                                        'student_attendances.*',
+                                        'students.name as student_name',
+                                        'students.lrn_no as student_lrn_no',
+                                        'stdIDS.student_no as student_no',
+                                    )
+                                    ->get();
         
         $tracks = Track::all();
         $sections = Section::all(); 
         $gr_levels = GradeLevel::all();
         $genders = Gender::all();
-
+    
         return view('welcome', [
-            'students' => $students,
+            'studentAttendances' => $studentAttendances,
             'tracks' => $tracks,
             'sections' => $sections,
             'gr_levels' => $gr_levels,
             'genders' => $genders
         ]);
-        
     }
 
     public function studentDetailStore(Request $request)
@@ -169,6 +165,7 @@ class StudentController extends Controller
         // Validate the incoming request data
         $validatedData = $request->validate([
             'student_id' => 'required|matches_student_id',
+            'desktop_time' => 'required|string' // Add validation for desktop time
         ]);
 
         // Retrieve the student record based on the provided student ID
@@ -177,27 +174,17 @@ class StudentController extends Controller
         
         // Check if a student with the provided ID exists
         if ($student) {
-            // Add the authenticated user's ID to the validated data
-            $validatedData['user_id'] = $student->std_id;
+            // Create a new instance of studentAttendance
+            $attendance = new studentAttendance();
             
-            // If time_in is not provided, set it to the current timestamp
-            if (!isset($validatedData['time_in'])) {
-                $validatedData['time_in'] = now();
-            }            
-
-            // Find the attendance record based on student_id
-            $attendance = studentAttendance::where('id')->first();
-
-            // Check if the attendance record exists
-            if ($attendance) {
-                // Update the time_out for the existing attendance record only if time_in is set
-                if (isset($validatedData['time_in'])) {
-                    $attendance->update(['time_out' => now()]);
-                }
-            } else {
-                // Create a new attendance record if it doesn't exist
-                studentAttendance::create($validatedData);
-            }
+            // Add the authenticated user's ID to the validated data
+            $attendance->user_id = $student->std_id;
+            
+            // Format the desktop time into MySQL datetime format
+            $attendance->time_in = date('Y-m-d H:i:s', strtotime($validatedData['desktop_time']));
+            
+            // Save the attendance record
+            $attendance->save();
 
             return redirect()->back()->with('success', 'Attendance recorded successfully');
         } else {

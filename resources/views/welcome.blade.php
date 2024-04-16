@@ -37,14 +37,14 @@
                         <div class="row">
                             <img src="{{ asset('assets/images/profile.png') }}" class="border border-secondary" width="80%" alt="std_profile">
                             <div class="col-md-12 offset-md-1 pl-2 pt-2">
-                                <form action="{{ route('student.detail.store') }}" method="POST">
-                                    <input type="number" name="student_id" class="rounded-pill border border-secondary" style="text-align: center; outline: none;" placeholder="Input Your ID No" required />
-                                        <div class="submit-btn px-5 mx-1 pt-1">
-                                            @csrf
-
-                                            <button type="submit" class="btn-sm btn-success rounded-pill">Submit</button>
-                                        </div>
-                                </form>
+                            <form id="attendanceForm" action="{{ route('student.detail.store') }}" method="POST">
+                                <input type="number" name="student_id" class="rounded-pill border border-secondary" style="text-align: center; outline: none;" placeholder="Input Your ID No" required />
+                                <input type="hidden" id="desktopTime" name="desktop_time">
+                                <div class="submit-btn px-5 mx-1 pt-1">
+                                    @csrf
+                                    <button type="submit" class="btn-sm btn-success rounded-pill">Submit</button>
+                                </div>
+                            </form>
                             </div>
                         </div>
                     </div>
@@ -68,13 +68,10 @@
                                         <th>
                                             Time In:
                                         </th>
-                                        <th>
-                                            Time Out:
-                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($students as $student)
+                                    @foreach($studentAttendances as $student)
                                     @include('student-detail')
                                     @endforeach
                                 </tbody>
@@ -108,3 +105,23 @@
             updateTime();
     </script>
 
+    <script>
+        // Function to get the current desktop time
+        function getCurrentDesktopTime() {
+            return new Date().toLocaleString();
+        }
+
+        // Set the current desktop time in the hidden input field when the form is submitted
+        document.getElementById('attendanceForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            // Get the current desktop time
+            var desktopTime = getCurrentDesktopTime();
+
+            // Set the desktop time in the hidden input field
+            document.getElementById('desktopTime').value = desktopTime;
+
+            // Submit the form
+            this.submit();
+        });
+    </script>
