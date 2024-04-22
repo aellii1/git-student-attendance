@@ -32,11 +32,11 @@
                                     <i class="dripicons-to-do"></i> <span> Attendance Sheet </span>
                                 </a>
                             </li> -->
-                            <li class="">
+                            <!-- <li class="">
                                 <a href="#" class="waves-effect {{ request()->is("sheet-report") || request()->is("sheet-report/*") ? "mm active" : "" }}">
                                     <i class="dripicons-to-do"></i> <span> Sheet Report </span>
                                 </a>
-                            </li>
+                            </li> -->
 
                             <li class="">
                                 <a href="#" class="waves-effect {{ request()->is("attendance") || request()->is("attendance/*") ? "mm active" : "" }}">

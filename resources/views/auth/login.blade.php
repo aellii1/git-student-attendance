@@ -5,7 +5,7 @@
         <div class="card overflow-hidden account-card mx-3 shadow">
             <div class="p-4 text-white text-center position-relative shadow" style="background-color: #ECECF1;">
                 <p class="text-white-50 mb-4"></p>
-                <a href="{{ route('welcome') }}" class="logo logo-admin shadow">
+                    <a href="/" class="logo logo-admin shadow">
                     <img src="{{ asset('assets/images/voctech.png') }}" alt="voctech">
                 </a>
             </div>
