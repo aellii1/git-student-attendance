@@ -1,0 +1,14 @@
+----------------------------------------------------------------------------------------------------------------
+
+As of April 22, 2024
+
+Finished CRUD Students
+Finished CRUD Track
+Finished CRUD Section
+Need debugging Login > Welcome
+Need enhancement Attendance page(Welcome) | where the recent student attendance should be on top
+Need Debug where if user log in it should redirect to the dashboard instead of the home page
+
+System Percentage - 70%
+
+----------------------------------------------------------------------------------------------------------------
