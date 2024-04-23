@@ -138,6 +138,8 @@ class StudentController extends Controller
     }
 
     public function studentDetail() {
+
+        $studentAttendances = studentAttendance::paginate(4);
         
         $studentAttendances = studentAttendance::orderBy('created_at', 'asc')->paginate(5);
         $studentAttendances = studentAttendance::leftJoin('students', 'student_attendances.user_id', '=', 'students.user_id')
