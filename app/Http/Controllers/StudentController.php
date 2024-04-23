@@ -75,7 +75,7 @@ class StudentController extends Controller
 
         flash()->success('Success','Student Record has been created successfully !');
 
-        return redirect()->back()->with('success');
+        return redirect()->route('students')->with('success');
     }
 
     private function generateStudentNo() {
@@ -116,23 +116,25 @@ class StudentController extends Controller
     
             $student->update($validatedData);
 
-            return redirect()->back()->with('success', 'Student updated successfully');
+            flash()->success('Success','Student Record has been Updated successfully !');
+
+            return redirect()->route('students')->with('success');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to update student: ' . $e->getMessage());
+            flash()->error('Error','Student Record error !');
+
+            return redirect()->route('students')->with('error');
         }
     }
 
     public function destroy($id)
     {
-        try {
-            $student = Student::findOrFail($id);
+        $student = Student::findOrFail($id);
 
-            $student->delete();
+        $student->delete();
 
-            return redirect()->back()->with('success', 'Student deleted successfully');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to delete student: ' . $e->getMessage());
-        }
+        flash()->success('Success','Student Record deleted successfully !');
+
+        return redirect()->route('students')->with('success');
     }
 
     public function studentDetail() {
