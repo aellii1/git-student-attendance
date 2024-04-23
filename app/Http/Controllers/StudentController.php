@@ -73,7 +73,9 @@ class StudentController extends Controller
             'std_id' => $student->user_id,
         ]);
 
-        return redirect()->back()->with('success', 'Student created successfully');
+        flash()->success('Success','Student Record has been created successfully !');
+
+        return redirect()->back()->with('success');
     }
 
     private function generateStudentNo() {
