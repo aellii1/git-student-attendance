@@ -198,4 +198,20 @@ class StudentController extends Controller
         }
     }
 
+    public function student_logs() {
+
+        $user = auth()->user();
+
+        $student_logs = studentAttendance::get();
+        $std_logs = Student::get();
+        $std_id = StudentID::get();
+
+        return view('admin.attendance-logs', [
+            'student_logs' => $student_logs,
+            'std_logs' => $std_logs,
+            'std_id' => $std_logs,
+            'user' => $user,
+        ]);
+    }
+
 }

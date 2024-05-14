@@ -41,6 +41,9 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
     Route::get('/', 'App\Http\Controllers\StudentController@studentDetail')->name('student_detail');
     Route::post('/', 'App\Http\Controllers\StudentController@studentDetailStore')->name('student.detail.store');
 
+    // attendance-logs route
+    Route::get('/student-logs', 'App\Http\Controllers\StudentController@student_logs')->name('student_logs');
+
     // // attendance route
     // Route::get('/attendance', '\App\Http\Controllers\AttendanceController@index')->name('attendance');
     // Route::get('/latetime', '\App\Http\Controllers\AttendanceController@indexLatetime')->name('indexLatetime');
