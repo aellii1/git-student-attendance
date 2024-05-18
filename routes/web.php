@@ -47,6 +47,9 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
     // upload photo
     Route::post('/upload-image', 'App\Http\Controllers\StudentController@uploadImage')->name('upload.image');
 
+    // display photo
+    Route::get('/student/profile/{id}', 'StudentController@showProfile')->name('student.profile');
+
     // // attendance route
     // Route::get('/attendance', '\App\Http\Controllers\AttendanceController@index')->name('attendance');
     // Route::get('/latetime', '\App\Http\Controllers\AttendanceController@indexLatetime')->name('indexLatetime');

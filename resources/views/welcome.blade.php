@@ -35,7 +35,11 @@
                 <div class="row justify-content-center">
                     <div class="col-md-3 p-3 flex-center" align="left">
                         <div class="row">
-                            <img src="{{ asset('assets/images/profile.png') }}" class="border border-secondary" width="80%" alt="std_profile">
+                            @if(!$studentAttendances)
+                                <img src="{{ route('student.profile', ['id' => $studentAttendances]) }}" class="border border-secondary" width="80%" alt="Student Profile">
+                                @else
+                                <img src="{{ asset('assets/images/profile.png') }}" class="border border-secondary" width="80%" alt="Default Profile">
+                            @endif
                             <div class="col-md-12 offset-md-1 pl-2 pt-2">
                             <form id="attendanceForm" action="{{ route('student.detail.store') }}" method="POST">
                                 <input type="number" name="student_id" class="rounded-pill border border-secondary" style="text-align: center; outline: none;" placeholder="Input Your ID No" required />

@@ -243,4 +243,17 @@ class StudentController extends Controller
         ]);
     }
 
+    public function showProfile($id)
+    {
+        $student_profile = Student::find($id);
+        if (!$student_profile) {
+            abort(404); // or redirect to a page indicating that the student ID is not found
+        }
+
+        // Assuming 'profile_image' is the column in your students table where the image path is stored
+        $profileImagePath = $student->picture ?? 'assets/images/profile.png';
+
+        return view('student.profile', ['profileImagePath' => $profileImagePath]);
+    }
+
 }

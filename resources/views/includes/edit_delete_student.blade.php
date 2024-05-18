@@ -97,8 +97,9 @@
                     {{ method_field('DELETE') }}
                     
                     <div class="std_img">
-                        <!-- to be followed -->
+                        <img src="{{ asset('storage/' . $student->picture) }}" class="border border-secondary" alt="Student Image" style="height: 150px; width: 150px;">
                     </div>
+                    <br />
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
