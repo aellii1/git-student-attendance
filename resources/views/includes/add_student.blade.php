@@ -1,3 +1,30 @@
+<style>
+    /* Hide the "Choose File" button */
+    input[type="file"]::-webkit-file-upload-button {
+        display: none;
+    }
+
+    /* Hide the placeholder text */
+    input[type="file"]::-webkit-file-upload-button::before {
+        content: none;
+    }
+
+    /* Hide the "No file chosen" text for Firefox */
+    input[type="file"]:-moz-file-broken::after {
+        content: none !important;
+    }
+
+    /* Hide the "No file chosen" text for Chrome */
+    input[type="file"] {
+        color: transparent;
+    }
+
+    /* Hide the file name initially */
+    #file-name {
+        display: none;
+    }
+</style>
+
 <!-- Add -->
 <div class="modal fade" id="addnew">
     <div class="modal-dialog">
@@ -15,8 +42,14 @@
 
                 <div class="card-body text-left">
 
-                    <form method="POST" action="{{ route('students.store') }}">
+                    <form id="student-form" method="POST" action="{{ route('students.store') }}">
                         @csrf
+                        <div class="form-group">
+                            <label for="picture" class="btn btn-secondary">Upload Photo</label>
+                            <input type="file" id="picture" name="picture" accept=".png, .jpg, .jpeg" required>
+                            <input type="text" class="form-control" id="file-input" readonly>
+                            <span class="form-control" id="file-name"></span>
+                        </div>
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name | e.g. John Doe" autofocus required />
@@ -94,3 +127,74 @@
     </div>
 </div>
 </div>
+
+<script>
+   
+   document.addEventListener("DOMContentLoaded", function() {
+    // Get CSRF token
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // Get the form element
+    const form = document.getElementById('student-form');
+    if (!form) {
+        console.error('Form with ID "student-form" not found.');
+        return;
+    }
+
+    // Listen for form submission
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(form); // Collect all form data
+
+        // Include CSRF token
+        formData.append('_token', csrfToken);
+
+        // Send the form data to the server using AJAX
+        $.ajax({
+            url: '/students', // Update the URL if necessary
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // Handle success
+                window.location.href = '/students'; // Redirect or update the page as needed
+            },
+            error: function (xhr, status, error) {
+                // Handle error
+                const errors = xhr.responseJSON.errors;
+                let errorMessages = '';
+                for (const key in errors) {
+                    if (errors.hasOwnProperty(key)) {
+                        errorMessages += errors[key].join(', ') + '\n';
+                    }
+                }
+            }
+        });
+    });
+
+    // File input display logic
+    const fileInput = document.getElementById('picture');
+    const fileNameSpan = document.getElementById('file-name');
+    const fileInputDisplay = document.getElementById('file-input');
+
+    if (fileInput) {
+        fileInput.addEventListener('change', function () {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                fileNameSpan.textContent = file.name;
+                fileNameSpan.style.display = 'inline-block';
+                fileInputDisplay.style.display = 'none';
+            } else {
+                fileNameSpan.textContent = '';
+                fileNameSpan.style.display = 'none';
+                fileInputDisplay.style.display = 'block';
+            }
+        });
+    } else {
+        console.error('File input with ID "picture" not found.');
+    }
+});
+
+</script>

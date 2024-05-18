@@ -34,8 +34,12 @@ class SectionController extends Controller
 
             $section->save();
 
-            return redirect()->back()->with('succes', 'Section created successfully');
+            flash()->success('Success','Section Record has been created successfully !');
+
+            return redirect()->route('sections')->with('success');
         } catch (\Exception $e) {
+            flash()->error('Error','Track Record has failed to create !');
+
             return redirect()->back()->with('error', 'Failed to create section: ');
         }
     }
@@ -51,9 +55,13 @@ class SectionController extends Controller
 
             $section->update($validatedData);
 
-            return redirect()->back()->with('success', 'Section updated successfully');
+            flash()->success('Success','Section Record has been updated successfully !');
+
+            return redirect()->route('sections')->with('success');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to update section');
+            flash()->error('Error','Section Record has failed to update !');
+
+            return redirect()->route('sections')->with('error');
         }
     }
 
@@ -64,9 +72,13 @@ class SectionController extends Controller
 
             $section->delete();
 
-            return redirect()->back()->with('succes', 'Section deleted successfully');
+            flash()->success('Success','Section Record has been deleted successfully !');
+
+            return redirect()->route('sections')->with('success');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to delete section: ');
+            flash()->error('Error','Section Record has failed to delete !');
+
+            return redirect()->route('sections')->with('error');
         }
     }
 }

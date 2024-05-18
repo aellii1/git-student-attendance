@@ -7,6 +7,7 @@
         <title>SAMS | System </title>
         <meta content="Admin Dashboard" name="description" />
         <meta content="Themesbrand" name="author" />
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         @include('layouts.head')
     </head>
 <body>

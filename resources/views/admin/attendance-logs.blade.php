@@ -48,6 +48,9 @@
                                                         <th data-priority="2">
                                                             Grade Level
                                                         </th>
+                                                        <th data-priority="2">
+                                                            Time In
+                                                        </th>
                                                         <th data-priority="7">
                                                             Actions
                                                         </th>
@@ -55,30 +58,33 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach( $students_logs as $student_log)
+                                                        @foreach( $student_logs as $student_log)
 
                                                         <tr>
                                                             <td>
-                                                                {{ $student_log->std_no }}
+                                                                {{ $student_log->student_no }}
                                                             </td>
                                                             <td>
-                                                                {{ strtoupper($student_log->name) }}
+                                                                {{ strtoupper($student_log->students_name) }}
                                                             </td>
                                                             <td>
-                                                                {{ $student_log->lrn_no}}
+                                                                {{ $student_log->students_lrn}}
                                                             </td>
                                                             <td>    
-                                                                {{ strtoupper($student_log->std_track) }} | {{ strtoupper($student_log->std_strand) }}
+                                                                {{ strtoupper($student_log->student_track) }} | {{ strtoupper($student_log->student_strand) }}
                                                             </td>
                                                             <td>    
-                                                                {{ strtoupper($student_log->std_section) }}
+                                                                {{ strtoupper($student_log->student_section) }}
                                                             </td>
                                                             <td>    
-                                                                {{ strtoupper($student_log->std_grade) }}
+                                                                {{ strtoupper($student_log->student_grade) }}
+                                                            </td>
+                                                            <td>    
+                                                                {{ strtoupper($student_log->time_in) }}
                                                             </td>
                                                             <td>
-                                                                <a href="#edit{{$student_log_logs->id}}" data-toggle="modal" class="btn btn-success btn-sm edit btn-flat"><i class='fa fa-edit'></i></a>
-                                                                <a href="#delete{{$student_log_logs->id}}" data-toggle="modal" class="btn btn-danger btn-sm delete btn-flat"><i class='fa fa-trash'></i></a>
+                                                                <a href="#edit{{$student_log->id}}" data-toggle="modal" class="btn btn-success btn-sm edit btn-flat"><i class='fa fa-edit'></i></a>
+                                                                <a href="#delete{{$student_log->id}}" data-toggle="modal" class="btn btn-danger btn-sm delete btn-flat"><i class='fa fa-trash'></i></a>
                                                             </td>
                                                         </tr>
                                                         @endforeach
@@ -91,11 +97,7 @@
                             </div> <!-- end col -->
                         </div> <!-- end row -->    
                                     
-@foreach($students as $student)
-@include('includes.edit_delete_student')
-@endforeach
                         
-@include('includes.add_student')
 
 @endsection
 

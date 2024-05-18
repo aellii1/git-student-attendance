@@ -30,10 +30,14 @@ class TrackController extends Controller
     
         try {
             $track = Track::create($validatedData);
+
+            flash()->success('Success','Track Record has been created successfully !');
     
-            return redirect()->back()->with('success', 'Track created successfully');
+            return redirect()->route('tracks')->with('success');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to create track. Please try again.');
+            flash()->error('Error','Track Record has failed to create !');
+            
+            return redirect()->route('tracks')->with('error');
         }
     }
 
@@ -47,10 +51,14 @@ class TrackController extends Controller
             $track = Track::findOrFail($id);
     
             $track->update($validatedData);
+
+            flash()->success('Success','Track Record has been updated successfully !');
     
-            return redirect()->back()->with('success', 'Track updated successfully');
+            return redirect()->route('tracks')->with('success');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to update track. Please try again.');
+            flash()->error('Success','Track Record has failed to update !');
+
+            return redirect()->route('tracks')->with('error');
         }
     }
 
@@ -61,9 +69,13 @@ class TrackController extends Controller
     
             $track->delete();
     
-            return redirect()->back()->with('success', 'Track deleted successfully');
+            flash()->success('Success','Track Record has been deleted successfully !');
+
+            return redirect()->route('tracks')->with('success');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to delete track. Please try again.');
+            flash()->error('Success','Track Record has failed to delete !');
+
+            return redirect()->route('tracks')->with('error');
         }
 
     }

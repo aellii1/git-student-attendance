@@ -50,6 +50,8 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
+
+        // Validate student data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'lrn_no' => 'required|string|max:15', 
@@ -60,24 +62,40 @@ class StudentController extends Controller
             'section' => 'required|string|max:255',
             'track' => 'required|string|max:255',
             'gr_lvl' => 'required|string|max:255',
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', 
         ]);
 
+        
+        // Check if an image file is uploaded
+        if ($request->hasFile('picture')) {
+            // Validate and upload the image
+            $path = $request->file('picture')->store('public'); // Store in storage/app/public directory
+            $relativePath = str_replace('public/', '', $path); // Get the relative path of the stored file
+            $validatedData['picture'] = $relativePath; // Set the picture attribute in validated data
+        }
+        
+        // Generate UUID for user_id
         $validatedData['user_id'] = Str::uuid();
-
+        
+        // Generate student number
         $studentNo = $this->generateStudentNo();
-
+        
+        // Create the student record
         $student = Student::create($validatedData);
-
+        
+        // Create StudentID record
         StudentID::create([
             'student_no' => $studentNo,
             'std_id' => $student->user_id,
         ]);
 
+        // Flash message
         flash()->success('Success','Student Record has been created successfully !');
 
         return redirect()->route('students')->with('success');
     }
 
+    // generate student no
     private function generateStudentNo() {
         $latestStudentID = StudentID::latest('student_no')->first();
     
@@ -120,7 +138,7 @@ class StudentController extends Controller
 
             return redirect()->route('students')->with('success');
         } catch (\Exception $e) {
-            flash()->error('Error','Student Record error !');
+            flash()->error('Error','Student Record has failed to update !');
 
             return redirect()->route('students')->with('error');
         }
@@ -141,7 +159,6 @@ class StudentController extends Controller
 
         $studentAttendances = studentAttendance::paginate(4);
         
-        $studentAttendances = studentAttendance::orderBy('created_at', 'asc')->paginate(5);
         $studentAttendances = studentAttendance::leftJoin('students', 'student_attendances.user_id', '=', 'students.user_id')
                                     ->leftJoin('student_i_d_s as stdIDS', 'students.user_id', '=', 'stdIDS.std_id')
                                     ->select(
@@ -150,7 +167,8 @@ class StudentController extends Controller
                                         'students.lrn_no as student_lrn_no',
                                         'stdIDS.student_no as student_no',
                                     )
-                                    ->get();
+                                    ->orderBy('time_in', 'DESC')
+                                    ->paginate(5);
         
         $tracks = Track::all();
         $sections = Section::all(); 
@@ -168,28 +186,23 @@ class StudentController extends Controller
 
     public function studentDetailStore(Request $request)
     {
-        // Validate the incoming request data
+
         $validatedData = $request->validate([
             'student_id' => 'required|matches_student_id',
-            'desktop_time' => 'required|string' // Add validation for desktop time
+            'desktop_time' => 'required|string' 
         ]);
 
-        // Retrieve the student record based on the provided student ID
         $studentID = $validatedData['student_id'];
         $student = StudentID::where('student_no', $studentID)->first();
         
-        // Check if a student with the provided ID exists
         if ($student) {
-            // Create a new instance of studentAttendance
+
             $attendance = new studentAttendance();
             
-            // Add the authenticated user's ID to the validated data
             $attendance->user_id = $student->std_id;
             
-            // Format the desktop time into MySQL datetime format
             $attendance->time_in = date('Y-m-d H:i:s', strtotime($validatedData['desktop_time']));
             
-            // Save the attendance record
             $attendance->save();
 
             return redirect()->back()->with('success', 'Attendance recorded successfully');
@@ -206,6 +219,22 @@ class StudentController extends Controller
         $std_logs = Student::get();
         $std_id = StudentID::get();
 
+        $student_logs = studentAttendance::leftJoin('students','student_attendances.user_id', '=', 'students.user_id')
+                                            ->leftJoin('student_i_d_s as student_id','students.user_id', '=', 'student_id.std_id')
+                                            ->leftJoin('tracks','students.track', '=', 'tracks.id')
+                                            ->leftJoin('sections','students.section', '=', 'sections.id')
+                                            ->leftJoin('grade_levels','students.gr_lvl', '=', 'grade_levels.id')
+                                            ->select('student_attendances.*',
+                                                    'students.name as students_name',
+                                                    'students.lrn_no as students_lrn',
+                                                    'student_id.student_no',
+                                                    'tracks.track as student_track',
+                                                    'tracks.strand as student_strand',
+                                                    'sections.section as student_section',
+                                                    'grade_levels.grade as student_grade',
+                                            )
+                                            ->get();
+        
         return view('admin.attendance-logs', [
             'student_logs' => $student_logs,
             'std_logs' => $std_logs,
