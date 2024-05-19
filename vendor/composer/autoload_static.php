@@ -685,7 +685,7 @@ class ComposerStaticInitc09dc24b3d08bdc970c9084f884de045
         'CreateSectionsTable' => __DIR__ . '/../..' . '/database/migrations/2024_04_14_135120_create_sections_table.php',
         'CreateStudentAttendancesTable' => __DIR__ . '/../..' . '/database/migrations/2024_04_16_135135_create_student_attendances_table.php',
         'CreateStudentIDSTable' => __DIR__ . '/../..' . '/database/migrations/2024_04_14_144740_create_student_i_d_s_table.php',
-        'CreateStudentsTable' => __DIR__ . '/../..' . '/database/migrations/2024_04_15_154045_create_students_table.php',
+        'CreateStudentsTable' => __DIR__ . '/../..' . '/database/migrations/2024_05_19_143210_create_students_table.php',
         'CreateTracksTable' => __DIR__ . '/../..' . '/database/migrations/2024_04_14_101802_create_tracks_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
