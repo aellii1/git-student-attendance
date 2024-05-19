@@ -39,7 +39,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-    
+
         // Check if 'Admin' role exists, if not, create it
         $adminRole = Role::where('slug', 'admin')->first();
         if (!$adminRole) {
@@ -48,11 +48,24 @@ class RegisterController extends Controller
                 'name' => 'Administrator',
                 'permissions' => null,
             ]);
+
+            // Assign the 'Admin' role to the first registered user
+            $user->roles()->attach($adminRole);
+        } else {
+            // 'Admin' role exists, so create or retrieve 'Faculty' role
+            $facultyRole = Role::where('slug', 'faculty')->first();
+            if (!$facultyRole) {
+                $facultyRole = Role::create([
+                    'slug' => 'faculty',
+                    'name' => 'Faculty',
+                    'permissions' => null,
+                ]);
+            }
+
+            // Assign the 'Faculty' role to subsequent registered users
+            $user->roles()->attach($facultyRole);
         }
-    
-        // Assign the 'Admin' role to the newly registered user
-        $user->roles()->attach($adminRole);
-    
+
         return $user;
     }
 }

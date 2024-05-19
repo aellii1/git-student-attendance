@@ -37,4 +37,17 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    protected function authenticated($request, $user)
+    {
+        // Check user roles and redirect accordingly
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin');
+        } elseif ($user->hasRole('faculty')) {
+            return redirect()->route('faculty');
+        }
+
+        // Default redirect if user doesn't have admin or faculty role
+        return redirect()->intended($this->redirectPath());
+    }
 }
