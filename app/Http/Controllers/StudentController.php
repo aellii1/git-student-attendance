@@ -68,7 +68,6 @@ class StudentController extends Controller
         
         // Check if an image file is uploaded
         if ($request->hasFile('picture')) {
-            // Validate and upload the image
             $path = $request->file('picture')->store('/public'); // Store in storage/app/public directory
             $relativePath = str_replace('public/', '', $path); 
             $validatedData['picture'] = $relativePath; 
