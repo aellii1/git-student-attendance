@@ -13,6 +13,17 @@
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="_method" value="PUT">
+                        <div class="std_img">
+                            <img src="{{ asset('storage/' . $student->picture) }}" class="border border-secondary" alt="Student Image" style="height: 150px; width: 150px;">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="std_no">Student ID No</label>
+                                    <input type="text" class="form-control" id="std_no" name="std_no" value="{{ $student->std_no }}" readonly required />
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name" value="{{ isset($student) ? $student->name : ''}}" autofocus required />
