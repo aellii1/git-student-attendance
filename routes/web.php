@@ -38,11 +38,6 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
     // attendance-logs route
     Route::get('/student-logs', 'App\Http\Controllers\StudentController@student_logs')->name('student_logs');
 
-    // upload photo
-    Route::post('/upload-image', 'App\Http\Controllers\StudentController@uploadImage')->name('upload.image');
-
-    // display photo
-    Route::get('/student/profile/{id}', 'StudentController@showProfile')->name('student.profile');
 
     // admin route
     Route::get('/admin', '\App\Http\Controllers\AdminController@index')->name('admin');
@@ -50,10 +45,10 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
 
 });
 
-Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['faculty']], function () {
+Route::group(['middleware' => ['auth']], function () {
 
-    // faculty route
-    Route::get('faculty', 'App\Http\Controllers\FacultyController@index')->name('faculty');
+    // Route::get('/home', 'HomeController@index')->name('home');
+
     
 
 });
