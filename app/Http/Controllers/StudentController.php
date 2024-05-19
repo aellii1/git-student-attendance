@@ -69,9 +69,9 @@ class StudentController extends Controller
         // Check if an image file is uploaded
         if ($request->hasFile('picture')) {
             // Validate and upload the image
-            $path = $request->file('picture')->store('public'); // Store in storage/app/public directory
-            $relativePath = str_replace('public/', '', $path); // Get the relative path of the stored file
-            $validatedData['picture'] = $relativePath; // Set the picture attribute in validated data
+            $path = $request->file('picture')->store('/public/students'); // Store in storage/app/public directory
+            $relativePath = str_replace('public/', '', $path); 
+            $validatedData['picture'] = $relativePath; 
         }
         
         // Generate UUID for user_id
