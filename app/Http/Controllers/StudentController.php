@@ -159,15 +159,15 @@ class StudentController extends Controller
         $studentAttendances = studentAttendance::paginate(4);
         
         $studentAttendances = studentAttendance::leftJoin('students', 'student_attendances.user_id', '=', 'students.user_id')
-                                    ->leftJoin('student_i_d_s as stdIDS', 'students.user_id', '=', 'stdIDS.std_id')
-                                    ->select(
-                                        'student_attendances.*',
-                                        'students.name as student_name',
-                                        'students.lrn_no as student_lrn_no',
-                                        'stdIDS.student_no as student_no',
-                                    )
-                                    ->orderBy('time_in', 'DESC')
-                                    ->paginate(5);
+                                                ->leftJoin('student_i_d_s as stdIDS', 'students.user_id', '=', 'stdIDS.std_id')
+                                                ->select(
+                                                    'student_attendances.*',
+                                                    'students.name as student_name',
+                                                    'students.lrn_no as student_lrn_no',
+                                                    'stdIDS.student_no as student_no',
+                                                )
+                                                ->orderBy('time_in', 'DESC')
+                                                ->paginate(5);
         
         $tracks = Track::all();
         $sections = Section::all(); 
@@ -233,6 +233,11 @@ class StudentController extends Controller
                                                     'grade_levels.grade as student_grade',
                                             )
                                             ->get();
+
+        foreach ($student_logs as $log) {
+            $log->formatted_date = $log->created_at ? $log->created_at->format('Y-m-d') : null;
+            $log->formatted_time = $log->time_in ? \Carbon\Carbon::parse($log->time_in)->format('H:i:s') : 'N/A'; // Assuming 'time_at' is the correct field for time
+        }
         
         return view('admin.attendance-logs', [
             'student_logs' => $student_logs,
@@ -240,16 +245,16 @@ class StudentController extends Controller
             'std_id' => $std_logs,
             'user' => $user,
         ]);
+
     }
 
     public function showProfile($id)
     {
         $student_profile = Student::find($id);
         if (!$student_profile) {
-            abort(404); // or redirect to a page indicating that the student ID is not found
+            abort(404); 
         }
 
-        // Assuming 'profile_image' is the column in your students table where the image path is stored
         $profileImagePath = $student->picture ?? 'assets/images/profile.png';
 
         return view('student.profile', ['profileImagePath' => $profileImagePath]);

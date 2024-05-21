@@ -18,4 +18,5 @@ class studentAttendance extends Model
         'time_in',
         'time_out'
     ];
+    
 }

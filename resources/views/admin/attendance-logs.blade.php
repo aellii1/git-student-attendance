@@ -49,12 +49,14 @@
                                                             Grade Level
                                                         </th>
                                                         <th data-priority="2">
+                                                            Date
+                                                        </th>
+                                                        <th data-priority="2">
                                                             Time In
                                                         </th>
                                                         <th data-priority="7">
                                                             Actions
                                                         </th>
-                                                     
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -80,7 +82,10 @@
                                                                 {{ strtoupper($student_log->student_grade) }}
                                                             </td>
                                                             <td>    
-                                                                {{ strtoupper($student_log->time_in) }}
+                                                                {{ strtoupper($student_log->formatted_date ?? 'N/A') }}
+                                                            </td>
+                                                            <td>    
+                                                                {{ strtoupper($student_log->formatted_time ?? 'N/A') }}
                                                             </td>
                                                             <td>
                                                                 <a href="#edit{{$student_log->id}}" data-toggle="modal" class="btn btn-success btn-sm edit btn-flat"><i class='fa fa-edit'></i></a>
