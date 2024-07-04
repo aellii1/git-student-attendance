@@ -189,6 +189,7 @@ class StudentController extends Controller
         $validatedData = $request->validate([
             'student_id' => 'required|matches_student_id',
             'desktop_time' => 'required|string',
+            'action_type' => 'required|string|in:time_in,time_out', 
         ]);
 
         // Retrieve student data
@@ -201,7 +202,7 @@ class StudentController extends Controller
             $attendance = StudentAttendance::where('user_id', $student->std_id)
                                             ->whereDate('time_in', $currentDate)
                                             ->first();
-    
+
             if ($validatedData['action_type'] == 'time_out') {
                 // Update the time_out if the record exists and time_out is null
                 if ($attendance && is_null($attendance->time_out)) {

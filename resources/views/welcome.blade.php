@@ -42,12 +42,12 @@
                             @endif
                             <div class="col-md-12 offset-md-1 pl-2 pt-2">
                             <form id="attendanceForm" action="{{ route('student.detail.store') }}" method="POST">
+                                @csrf
                                 <input type="number" name="student_id" class="rounded-pill border border-secondary" style="text-align: center; outline: none;" placeholder="Input Your ID No" required />
                                 <input type="hidden" id="desktopTime" name="desktop_time">
-                                <input type="hidden" id="actionType" name="action_type" value="time_in">
+                                <input type="hidden" id="actionType" name="action_type">
                                 <div class="submit-btn px-5 mx-1 pt-1">
-                                    @csrf
-                                    <button type="submit" class="btn-sm btn-success rounded-pill">Submit</button>
+                                    <button type="button" class="btn-sm btn-success rounded-pill" onclick="submitForm('time_in')">Submit</button>
                                 </div>
                             </form>
                             </div>
@@ -118,22 +118,21 @@
         function getCurrentDesktopTime() {
             return new Date().toLocaleString();
         }
-
-        function setActionType(action) {
-            document.getElementById('actionType').value = action;
-            document.getElementById('attendanceForm').submit();
-        }
-
-        document.getElementById('attendanceForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
-
-            // Get the current desktop time
+        
+        function submitForm(actionType) {
             var desktopTime = getCurrentDesktopTime();
 
-            // Set the desktop time in the hidden input field
+            // set value to hidden inputs
             document.getElementById('desktopTime').value = desktopTime;
+            document.getElementById('actionType').value = actionType;
 
-            // Submit the form
-            this.submit();
-        });
+            // logs for data before submission
+            console.log("Submitting for with data:");
+            console.log("Student ID:", document.getElementsByName('student_id')[0].value);
+            console.log("Desktop Time:", desktopTime);
+            console.log("Action Type:", actionType);
+
+            // submit form
+            document.getElementById('attendanceForm').submit();
+        }
     </script>
