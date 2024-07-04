@@ -185,31 +185,49 @@ class StudentController extends Controller
 
     public function studentDetailStore(Request $request)
     {
-
+        // Validate the request data
         $validatedData = $request->validate([
             'student_id' => 'required|matches_student_id',
-            'desktop_time' => 'required|string' 
+            'desktop_time' => 'required|string',
         ]);
 
+        // Retrieve student data
         $studentID = $validatedData['student_id'];
         $student = StudentID::where('student_no', $studentID)->first();
-        
+
         if ($student) {
-
-            $attendance = new studentAttendance();
-            
-            $attendance->user_id = $student->std_id;
-            
-            $attendance->time_in = date('Y-m-d H:i:s', strtotime($validatedData['desktop_time']));
-            
-            $attendance->save();
-
-            return redirect()->back()->with('success', 'Attendance recorded successfully');
+            // Check for an existing attendance record for today
+            $currentDate = date('Y-m-d');
+            $attendance = StudentAttendance::where('user_id', $student->std_id)
+                                            ->whereDate('time_in', $currentDate)
+                                            ->first();
+    
+            if ($validatedData['action_type'] == 'time_out') {
+                // Update the time_out if the record exists and time_out is null
+                if ($attendance && is_null($attendance->time_out)) {
+                    $attendance->time_out = date('Y-m-d H:i:s', strtotime($validatedData['desktop_time']));
+                    $attendance->save();
+                    return redirect()->back()->with('success', 'Time out recorded successfully');
+                } else {
+                    return redirect()->back()->with('error', 'Time out already recorded for today or no time in record found.');
+                }
+            } else {
+                // Record time_in if no attendance record exists for today
+                if (!$attendance) {
+                    $attendance = new StudentAttendance();
+                    $attendance->user_id = $student->std_id;
+                    $attendance->time_in = date('Y-m-d H:i:s', strtotime($validatedData['desktop_time']));
+                    $attendance->save();
+                    return redirect()->back()->with('success', 'Time in recorded successfully');
+                } else {
+                    return redirect()->back()->with('error', 'Time in already recorded for today.');
+                }
+            }
         } else {
             return redirect()->back()->with('error', 'Student with ID ' . $studentID . ' not found.');
         }
     }
-
+    
     public function student_logs() {
 
         $user = auth()->user();

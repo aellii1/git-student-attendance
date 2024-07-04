@@ -11,4 +11,7 @@
     <td>
         {{ \Carbon\Carbon::parse($student->time_in)->format('h:i:s A') }}
     </td>
+    <td>
+        {{ $student->time_out ? \Carbon\Carbon::parse($student->time_out)->format('h:i:s A') : 'N/A' }}
+    </td>
 </tr>

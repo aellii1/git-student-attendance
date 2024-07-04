@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
 
     // attendance-logs route
     Route::get('/student-logs', 'App\Http\Controllers\StudentController@student_logs')->name('student_logs');
+    Route::delete('/student-logs', 'App\Http\Controllers\StudentController@student_logsDestory')->name('student_logs.destroy');
 
 
     // admin route
